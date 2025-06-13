@@ -72,7 +72,9 @@ class GuestController extends Controller
 
     public function createNote(){
         $user = User::find(Auth::id());
-        return view('createnote', ['user' => $user]);
+        $notes = $user->notes()->get();
+
+        return view('createnote', ['user' => $user, 'notes' => $notes]);
     }
     public function storeNote(Request $request){
         $validated = $request->validate([
@@ -97,9 +99,12 @@ class GuestController extends Controller
         return redirect()->route('dashboard')->withErrors(['delete' => 'Note not found or unauthorized']);
     }
     public function editNote($id){
+        
+        $user = User::find(Auth::id());
+        $notes = $user->notes()->get();
         $note = Note::find($id);
         if ($note && $note->user_id == Auth::id()) {
-            return view('editnote', ['note' => $note]);
+            return view('editnote', ['note' => $note, 'user' => $user, 'notes' => $notes]);
         }
         return redirect()->route('dashboard')->withErrors(['edit' => 'Note not found or unauthorized']);
     }
@@ -121,8 +126,10 @@ class GuestController extends Controller
 
     public function viewNote($id){
         $note = Note::find($id);
+        $user = User::find(Auth::id());
+        $notes = $user->notes()->get();
         if ($note && $note->user_id == Auth::id()) {
-            return view('viewnote', ['note' => $note]);
+            return view('viewnote', ['note' => $note, 'user' => $user, 'notes' => $notes]);
         }
         return redirect()->route('dashboard')->withErrors(['view' => 'Note not found or unauthorized']);
     }

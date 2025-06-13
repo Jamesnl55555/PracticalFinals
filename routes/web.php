@@ -14,7 +14,7 @@ Route::middleware('authentication')->group(function (){
     Route::get('/dashboard', [GuestController::class, 'dashboard'])->name('dashboard');
     Route::get('/notes/ncreate', [GuestController::class, 'createNote'])->name('ncreate');
     Route::post('/notes/store', [GuestController::class, 'storeNote'])->name('nstore');
-    Route::post('/notes/delete/{id}', [GuestController::class, 'deleteNote'])->name('ndelete');
+    Route::delete('/notes/delete/{id}', [GuestController::class, 'deleteNote'])->name('ndelete');
     Route::get('/notes/edit/{id}', [GuestController::class, 'editNote'])->name('nedit');
     Route::get('/notes/view/{id}', [GuestController::class, 'viewNote'])->name('nview');
     Route::post('/notes/update/{id}', [GuestController::class, 'updateNote'])->name('nupdate');
